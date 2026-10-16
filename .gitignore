@@ -1,0 +1,7 @@
+*.exe
+*.test
+*.out
+bin/
+coverage/
+.DS_Store
+__pycache__/

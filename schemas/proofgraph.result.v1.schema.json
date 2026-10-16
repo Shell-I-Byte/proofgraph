@@ -1,0 +1,154 @@
+{
+  "$id": "https://example.invalid/proofgraph/result-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attack_paths": {
+      "type": "array"
+    },
+    "blast_radius": {
+      "type": "object"
+    },
+    "contradictions": {
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {
+            "maximum": 2097152,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "id": {
+            "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "sha256",
+          "bytes",
+          "source"
+        ],
+        "type": "object"
+      },
+      "maxItems": 256,
+      "type": "array"
+    },
+    "findings": {
+      "type": "array"
+    },
+    "graph_cuts": {
+      "type": "array"
+    },
+    "information_gain": {
+      "type": "array"
+    },
+    "input_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "missing_links": {
+      "items": {
+        "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+        "type": "string"
+      },
+      "maxItems": 512,
+      "type": "array"
+    },
+    "negative_evidence": {
+      "items": {
+        "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+        "type": "string"
+      },
+      "maxItems": 512,
+      "type": "array"
+    },
+    "nodes": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+            "type": "string"
+          },
+          "scope_id": {
+            "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "asset",
+              "identity",
+              "service",
+              "control",
+              "finding"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "scope_id"
+        ],
+        "type": "object"
+      },
+      "maxItems": 256,
+      "type": "array"
+    },
+    "schema": {
+      "const": "proofgraph.result/v1"
+    },
+    "scope_id": {
+      "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "snapshot": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "source_schema": {
+      "const": "proofgraph.security-ir/v1"
+    }
+  },
+  "required": [
+    "schema",
+    "source_schema",
+    "input_sha256",
+    "scope_id",
+    "snapshot",
+    "nodes",
+    "evidence",
+    "findings",
+    "attack_paths",
+    "negative_evidence",
+    "contradictions",
+    "missing_links",
+    "information_gain",
+    "blast_radius",
+    "graph_cuts",
+    "limitations",
+    "sha256"
+  ],
+  "type": "object"
+}

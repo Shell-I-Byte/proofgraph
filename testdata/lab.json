@@ -1,0 +1,12 @@
+{
+ "schema":"proofgraph.security-ir/v1", "authorization":{"scope_id":"lab-1","granted_by":"owner","valid_from":"2026-10-01T00:00:00Z","valid_until":"2026-10-31T00:00:00Z"},
+ "snapshot":"2026-10-09T06:00:00Z",
+ "nodes":[{"id":"origin","type":"identity","scope_id":"lab-1"},{"id":"web","type":"service","scope_id":"lab-1"},{"id":"vault","type":"asset","scope_id":"lab-1"},{"id":"vault2","type":"asset","scope_id":"lab-1"}],
+ "evidence":[{"id":"ev1","source":"synthetic","data_base64":"c3ludGhldGljIGV2aWRlbmNl"}],
+ "edges":[
+ {"id":"edge1","from":"origin","to":"web","kind":"access","state":"confirmed","evidence_ids":["ev1"],"observed_at":"2026-10-08T00:00:00Z","verified_by":"analyst"},
+ {"id":"edge2","from":"web","to":"vault","kind":"access","state":"confirmed","evidence_ids":["ev1"],"observed_at":"2026-10-08T00:00:00Z","verified_by":"analyst"},
+ {"id":"edge3","from":"web","to":"vault2","kind":"access","state":"hypothesis","evidence_ids":["ev1"],"observed_at":"2026-10-08T00:00:00Z"},
+ {"id":"edge4","from":"web","to":"vault","kind":"access","state":"disproven","evidence_ids":["ev1"],"observed_at":"2026-10-08T00:00:00Z"}],
+ "entry_nodes":["origin"],"target_nodes":["vault","vault2"]
+ }

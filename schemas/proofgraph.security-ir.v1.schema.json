@@ -1,0 +1,224 @@
+{
+  "$id": "https://example.invalid/proofgraph/security-ir-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorization": {
+      "additionalProperties": false,
+      "properties": {
+        "granted_by": {
+          "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+          "type": "string"
+        },
+        "scope_id": {
+          "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+          "type": "string"
+        },
+        "valid_from": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "valid_until": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope_id",
+        "granted_by",
+        "valid_from",
+        "valid_until"
+      ],
+      "type": "object"
+    },
+    "edges": {
+      "items": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "not": {
+                "required": [
+                  "verified_by"
+                ]
+              }
+            },
+            "if": {
+              "properties": {
+                "state": {
+                  "const": "confirmed"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "verified_by"
+              ]
+            }
+          }
+        ],
+        "properties": {
+          "evidence_ids": {
+            "items": {
+              "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+              "type": "string"
+            },
+            "maxItems": 16,
+            "minItems": 1,
+            "type": "array"
+          },
+          "from": {
+            "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+            "type": "string"
+          },
+          "id": {
+            "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "depends_on",
+              "access",
+              "exposes",
+              "mitigates",
+              "observes"
+            ],
+            "type": "string"
+          },
+          "observed_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "observed",
+              "confirmed",
+              "inferred",
+              "hypothesis",
+              "disproven"
+            ],
+            "type": "string"
+          },
+          "to": {
+            "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+            "type": "string"
+          },
+          "verified_by": {
+            "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "from",
+          "to",
+          "kind",
+          "state",
+          "evidence_ids",
+          "observed_at"
+        ],
+        "type": "object"
+      },
+      "maxItems": 512,
+      "type": "array"
+    },
+    "entry_nodes": {
+      "items": {
+        "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+        "type": "string"
+      },
+      "maxItems": 4,
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "data_base64": {
+            "maxLength": 2796204,
+            "type": "string"
+          },
+          "id": {
+            "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+            "type": "string"
+          },
+          "source": {
+            "enum": [
+              "synthetic",
+              "authorized_collection"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "source",
+          "data_base64"
+        ],
+        "type": "object"
+      },
+      "maxItems": 256,
+      "type": "array"
+    },
+    "nodes": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+            "type": "string"
+          },
+          "scope_id": {
+            "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "asset",
+              "identity",
+              "service",
+              "control",
+              "finding"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "scope_id"
+        ],
+        "type": "object"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "type": "array"
+    },
+    "schema": {
+      "const": "proofgraph.security-ir/v1"
+    },
+    "snapshot": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "target_nodes": {
+      "items": {
+        "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+        "type": "string"
+      },
+      "maxItems": 4,
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema",
+    "authorization",
+    "snapshot",
+    "nodes",
+    "evidence",
+    "edges",
+    "entry_nodes",
+    "target_nodes"
+  ],
+  "type": "object"
+}
